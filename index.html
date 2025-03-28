@@ -17,6 +17,9 @@
             --white: #FFFFFF;
             --black: #1A1A1A;
             --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --header-height: 80px;
         }
 
         /* Global Styles */
@@ -32,6 +35,7 @@
             background-color: var(--white);
             line-height: 1.7;
             overflow-x: hidden;
+            padding-top: var(--header-height);
         }
 
         h1, h2, h3, h4 {
@@ -40,7 +44,7 @@
             line-height: 1.3;
         }
 
-        h1 { font-size: clamp(2.5rem, 6vw, 4rem); color: var(--earth-green); }
+        h1 { font-size: clamp(2.5rem, 6vw, 4rem); }
         h2 { font-size: clamp(2rem, 5vw, 3rem); }
         h3 { font-size: clamp(1.5rem, 4vw, 2rem); }
 
@@ -66,34 +70,24 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: var(--transition);
+            border: none;
             cursor: pointer;
-            gap: 0.5rem;
             font-size: 0.9rem;
+            gap: 0.5rem;
         }
 
         .btn-primary {
             background-color: var(--earth-green);
             color: var(--white);
-            border: 2px solid var(--earth-green);
+            box-shadow: var(--shadow);
         }
 
         .btn-primary:hover {
             background-color: transparent;
             color: var(--earth-green);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(46, 139, 87, 0.2);
-        }
-
-        .btn-secondary {
-            background-color: var(--ocean-blue);
-            color: var(--white);
-            border: 2px solid var(--ocean-blue);
-        }
-
-        .btn-secondary:hover {
-            background-color: transparent;
-            color: var(--ocean-blue);
-            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border: 2px solid var(--earth-green);
         }
 
         .btn-outline {
@@ -107,33 +101,17 @@
             color: var(--white);
         }
 
-        /* Animated Background Elements */
-        .leaf-decoration {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,0 C70,30 90,50 50,90 C10,50 30,30 50,0 Z" fill="%232E8B57" opacity="0.1"/></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: -1;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        /* Header with Animated Logo */
+        /* Header */
         header {
             position: fixed;
-            width: 100%;
             top: 0;
             left: 0;
-            z-index: 1000;
+            width: 100%;
+            height: var(--header-height);
             background-color: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
             transition: var(--transition);
         }
 
@@ -141,15 +119,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 0;
+            height: 100%;
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 1rem;
-            font-weight: 700;
             font-size: 1.5rem;
+            font-weight: 700;
             color: var(--earth-green);
         }
 
@@ -171,17 +149,92 @@
             100% { transform: scale(1); }
         }
 
-        /* Hero Section with Parallax Effect */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--black);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--earth-green);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--black);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            height: calc(100vh - var(--header-height));
+            background-color: var(--white);
+            transform: translateX(100%);
+            transition: var(--transition);
+            z-index: 999;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .mobile-nav-links a {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--black);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .mobile-menu-buttons {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Hero Section */
         .hero {
-            min-height: 100vh;
+            min-height: calc(100vh - var(--header-height));
             display: flex;
             align-items: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                        url('https://images.unsplash.com/photo-1612132274651-ae5105c60c6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover fixed;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1612132274651-ae5105c60c6b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
             color: var(--white);
-            padding-top: 6rem;
+            text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
         .hero::before {
@@ -198,21 +251,21 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            text-align: center;
             max-width: 800px;
             margin: 0 auto;
+            padding: 2rem;
         }
 
         .hero h1 {
             color: var(--white);
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
-            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
         }
 
         .hero-buttons {
@@ -222,7 +275,7 @@
             flex-wrap: wrap;
         }
 
-        /* Get Involved Section with Interactive Cards */
+        /* Get Involved Section */
         .get-involved {
             background-color: var(--white);
         }
@@ -238,58 +291,64 @@
             background-color: var(--white);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             transition: var(--transition);
-            position: relative;
-            border: 1px solid rgba(46, 139, 87, 0.1);
+            text-align: center;
+            padding: 2rem 1.5rem;
         }
 
         .involvement-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-hover);
         }
 
         .involvement-icon {
-            width: 80px;
-            height: 80px;
-            background-color: var(--earth-green);
-            color: var(--white);
+            width: 70px;
+            height: 70px;
+            background-color: rgba(46, 139, 87, 0.1);
+            color: var(--earth-green);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 2rem auto 1.5rem;
-            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            font-size: 1.75rem;
             transition: var(--transition);
         }
 
         .involvement-card:hover .involvement-icon {
-            background-color: var(--ocean-blue);
-            transform: rotate(15deg) scale(1.1);
+            background-color: var(--earth-green);
+            color: var(--white);
+            transform: rotate(15deg);
         }
 
-        .involvement-content {
-            padding: 0 2rem 2rem;
-            text-align: center;
+        /* Stories Section */
+        .stories {
+            background-color: #f8f9fa;
         }
 
-        /* Story Cards with Share Functionality */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
         .story-card {
             background-color: var(--white);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             transition: var(--transition);
-            position: relative;
         }
 
         .story-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--shadow-hover);
         }
 
         .story-image {
-            height: 250px;
+            height: 200px;
             overflow: hidden;
             position: relative;
         }
@@ -298,11 +357,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s ease;
+            transition: transform 0.5s ease;
         }
 
         .story-card:hover .story-image img {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .story-badge {
@@ -311,14 +370,14 @@
             right: 1rem;
             background-color: var(--earth-green);
             color: var(--white);
-            padding: 0.3rem 1rem;
+            padding: 0.25rem 1rem;
             border-radius: 50px;
             font-size: 0.8rem;
             font-weight: 600;
         }
 
         .story-content {
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .story-meta {
@@ -334,8 +393,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background-color: rgba(46, 139, 87, 0.1);
             border-radius: 50%;
             color: var(--earth-green);
@@ -349,12 +408,70 @@
             color: var(--white);
         }
 
-        /* Functional Contact Form */
-        .contact-form {
+        /* Contact Section */
+        .contact {
             background-color: var(--white);
-            padding: 3rem;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--earth-green);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--earth-green);
+            border-radius: 50%;
+            color: var(--white);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--ocean-blue);
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background-color: #f8f9fa;
+            padding: 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
         }
 
         .form-group {
@@ -364,15 +481,14 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--earth-green);
+            font-weight: 500;
         }
 
         .form-control {
             width: 100%;
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             border: 1px solid #ddd;
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: 'Montserrat', sans-serif;
             transition: var(--transition);
         }
@@ -380,7 +496,7 @@
         .form-control:focus {
             outline: none;
             border-color: var(--earth-green);
-            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
+            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.1);
         }
 
         textarea.form-control {
@@ -391,7 +507,7 @@
         .form-message {
             margin-top: 1rem;
             padding: 1rem;
-            border-radius: 10px;
+            border-radius: 8px;
             display: none;
         }
 
@@ -407,16 +523,7 @@
             display: block;
         }
 
-        /* Interactive Map Section */
-        .map-container {
-            height: 500px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-top: 3rem;
-        }
-
-        /* Footer with Newsletter Signup */
+        /* Footer */
         footer {
             background-color: var(--black);
             color: var(--white);
@@ -449,6 +556,30 @@
             font-weight: 700;
         }
 
+        .footer-links h3 {
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+            padding-left: 5px;
+        }
+
         .newsletter-form {
             display: flex;
             gap: 0.5rem;
@@ -475,6 +606,45 @@
 
         .newsletter-btn:hover {
             background-color: var(--ocean-blue);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--earth-green);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--ocean-blue);
+            transform: translateY(-5px);
         }
 
         /* Share Modal */
@@ -559,30 +729,19 @@
         /* Responsive Styles */
         @media (max-width: 992px) {
             .nav-links {
-                position: fixed;
-                top: 5.5rem;
-                left: -100%;
-                width: 80%;
-                height: calc(100vh - 5.5rem);
-                background-color: var(--white);
-                flex-direction: column;
-                align-items: center;
-                padding: 2rem;
-                gap: 1.5rem;
-                transition: var(--transition);
-                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.1);
+                display: none;
             }
-
-            .nav-links.active {
-                left: 0;
-            }
-
+            
             .menu-toggle {
                 display: block;
             }
-
+            
             section {
                 padding: 4rem 0;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -590,38 +749,54 @@
             .container {
                 padding: 0 1.5rem;
             }
-
-            .hero {
-                min-height: 80vh;
-                background-attachment: scroll;
-            }
-
+            
             .hero h1 {
-                font-size: 2.8rem;
+                font-size: 2.5rem;
             }
-
-            .contact-form {
-                padding: 2rem;
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
         }
 
         @media (max-width: 576px) {
-            .container {
-                padding: 0 1rem;
+            :root {
+                --header-height: 70px;
             }
-
-            section {
-                padding: 3rem 0;
+            
+            .logo {
+                font-size: 1.1rem;
             }
-
-            .btn {
-                width: 100%;
+            
+            .logo-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
             }
-
+            
+            .involvement-options, .stories-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .newsletter-form {
                 flex-direction: column;
             }
-
+            
             .newsletter-btn {
                 padding: 0.75rem;
             }
@@ -632,13 +807,14 @@
     <!-- Header -->
     <header id="header">
         <div class="container">
-            <nav class="nav-container">
+            <div class="nav-container">
                 <a href="#" class="logo">
                     <div class="logo-icon">
                         <i class="fas fa-leaf"></i>
                     </div>
-                    <span>My Climate Definition</span>
+                    <span>Climate Stories</span>
                 </a>
+                
                 <ul class="nav-links">
                     <li><a href="#about">About</a></li>
                     <li><a href="#mission">Mission</a></li>
@@ -647,12 +823,29 @@
                     <li><a href="#contact">Contact</a></li>
                     <li><a href="#" class="btn btn-outline">Donate</a></li>
                 </ul>
-                <div class="menu-toggle">
+                
+                <button class="menu-toggle" id="mobileMenuBtn">
                     <i class="fas fa-bars"></i>
-                </div>
-            </nav>
+                </button>
+            </div>
         </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#mission">Mission</a></li>
+            <li><a href="#get-involved">Get Involved</a></li>
+            <li><a href="#stories">Stories</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        
+        <div class="mobile-menu-buttons">
+            <a href="#" class="btn btn-primary">Donate Now</a>
+            <a href="#contact" class="btn btn-outline">Contact Us</a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -664,7 +857,7 @@
                     <a href="#get-involved" class="btn btn-primary">
                         <i class="fas fa-hands-helping"></i> GET INVOLVED
                     </a>
-                    <a href="#stories" class="btn btn-secondary">
+                    <a href="#stories" class="btn btn-outline" style="color: white; border-color: white;">
                         <i class="fas fa-book-open"></i> EXPLORE STORIES
                     </a>
                 </div>
@@ -676,7 +869,7 @@
     <section id="about" class="about">
         <div class="container">
             <h2 class="text-center">ABOUT US</h2>
-            <!-- ... (same about content as before) ... -->
+            <!-- ... (about content) ... -->
         </div>
     </section>
 
@@ -684,7 +877,7 @@
     <section id="mission" class="mission">
         <div class="container">
             <h2 class="text-center">OUR MISSION & VISION</h2>
-            <!-- ... (same mission content as before) ... -->
+            <!-- ... (mission content) ... -->
         </div>
     </section>
 
@@ -700,11 +893,9 @@
                     <div class="involvement-icon">
                         <i class="fas fa-pen-fancy"></i>
                     </div>
-                    <div class="involvement-content">
-                        <h3>Share Your Story</h3>
-                        <p>Contribute your personal climate change experiences to our growing collection that makes climate action relatable.</p>
-                        <a href="#share-story" class="btn btn-outline" style="margin-top: 1rem;">Submit Your Story</a>
-                    </div>
+                    <h3>Share Your Story</h3>
+                    <p>Contribute your personal climate change experiences to our growing collection that makes climate action relatable.</p>
+                    <a href="#share-story" class="btn btn-outline" style="margin-top: 1rem;">Submit Your Story</a>
                 </div>
                 
                 <!-- Climate Champion -->
@@ -712,11 +903,9 @@
                     <div class="involvement-icon">
                         <i class="fas fa-medal"></i>
                     </div>
-                    <div class="involvement-content">
-                        <h3>Become a Climate Champion</h3>
-                        <p>Join our ambassador program to lead climate initiatives in your community with training and resources.</p>
-                        <a href="#contact" class="btn btn-outline" style="margin-top: 1rem;">Learn More</a>
-                    </div>
+                    <h3>Become a Climate Champion</h3>
+                    <p>Join our ambassador program to lead climate initiatives in your community with training and resources.</p>
+                    <a href="#contact" class="btn btn-outline" style="margin-top: 1rem;">Learn More</a>
                 </div>
                 
                 <!-- Volunteer -->
@@ -724,11 +913,9 @@
                     <div class="involvement-icon">
                         <i class="fas fa-hands-helping"></i>
                     </div>
-                    <div class="involvement-content">
-                        <h3>Volunteer</h3>
-                        <p>Help with events, content creation, translation, or community outreach based on your skills.</p>
-                        <a href="#volunteer" class="btn btn-outline" style="margin-top: 1rem;">Volunteer Now</a>
-                    </div>
+                    <h3>Volunteer</h3>
+                    <p>Help with events, content creation, translation, or community outreach based on your skills.</p>
+                    <a href="#volunteer" class="btn btn-outline" style="margin-top: 1rem;">Volunteer Now</a>
                 </div>
                 
                 <!-- Donate -->
@@ -736,11 +923,9 @@
                     <div class="involvement-icon">
                         <i class="fas fa-donate"></i>
                     </div>
-                    <div class="involvement-content">
-                        <h3>Support Financially</h3>
-                        <p>Your donations help us amplify more voices and create educational resources about climate change.</p>
-                        <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Donate Now</a>
-                    </div>
+                    <h3>Support Financially</h3>
+                    <p>Your donations help us amplify more voices and create educational resources about climate change.</p>
+                    <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Donate Now</a>
                 </div>
             </div>
         </div>
@@ -812,53 +997,6 @@
                         <a href="#" class="btn btn-primary">Read Full Story</a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Share Story Form -->
-    <section id="share-story" class="share-story" style="background-color: #f8f9fa;">
-        <div class="container">
-            <h2 class="text-center">SHARE YOUR CLIMATE STORY</h2>
-            <p class="text-center" style="max-width: 700px; margin: 0 auto 3rem;">Your personal experience can inspire others to take action</p>
-            
-            <div class="contact-form">
-                <form id="storyForm" netlify>
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">Location (City/Country)</label>
-                        <input type="text" id="location" name="location" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="story-title">Story Title</label>
-                        <input type="text" id="story-title" name="story-title" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="story">Your Climate Story</label>
-                        <textarea id="story" name="story" class="form-control" required></textarea>
-                        <small>Tell us how climate change has affected you personally (500-1000 words)</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="photo">Photo (Optional)</label>
-                        <input type="file" id="photo" name="photo" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> SUBMIT STORY
-                    </button>
-                    <div class="form-message success" id="storySuccess" style="display: none;">
-                        Thank you for sharing your story! We'll review it and may contact you for more details.
-                    </div>
-                    <div class="form-message error" id="storyError" style="display: none;">
-                        There was an error submitting your story. Please try again.
-                    </div>
-                </form>
             </div>
         </div>
     </section>
@@ -946,33 +1084,242 @@
         </div>
     </section>
 
-    <!-- Interactive Map Section -->
-    <section class="map-section">
+    <!-- Footer -->
+    <footer>
         <div class="container">
-            <h2 class="text-center">OUR GLOBAL COMMUNITY</h2>
-            <p class="text-center" style="max-width: 700px; margin: 0 auto 3rem;">See where our community members are making an impact around the world</p>
-            
-            <div class="map-container" id="communityMap">
-                <!-- Map will be loaded here via JavaScript -->
-                <div style="height: 100%; display: flex; align-items: center; justify-content: center; background-color: #f0f0f0; border-radius: 20px;">
-                    <p>Interactive map loading...</p>
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">MCD</div>
+                        <span>My Climate Definition</span>
+                    </div>
+                    <p>Personalizing climate change through shared stories and experiences to inspire action.</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#mission">Our Mission</a></li>
+                        <li><a href="#get-involved">Get Involved</a></li>
+                        <li><a href="#stories">Stories</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Climate Facts</a></li>
+                        <li><a href="#">Take Action</a></li>
+                        <li><a href="#">Events</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get updates on new stories and events</p>
+                    <form class="newsletter-form" id="newsletterForm" netlify>
+                        <input type="email" name="email" class="newsletter-input" placeholder="Your email" required>
+                        <button type="submit" class="newsletter-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Newsletter Section -->
-    <section class="newsletter" style="background-color: var(--earth-green); color: white;">
-        <div class="container" style="text-align: center;">
-            <h2>STAY UPDATED</h2>
-            <p style="max-width: 600px; margin: 0 auto 2rem;">Subscribe to our newsletter for the latest stories, events, and climate action tips</p>
-            
-            <form id="newsletterForm" class="newsletter-form" netlify>
-                <input type="email" name="email" class="newsletter-input" placeholder="Your email address" required>
-                <button type="submit" class="btn btn-primary newsletter-btn">
-                    <i class="fas fa-paper-plane"></i> SUBSCRIBE
-                </button>
-            </form>
-            <div class="form-message success" id="newsletterSuccess" style="display: none; margin: 1rem auto 0; max-width: 500px;">
-                Thank you for subscribing! Please check your email to confirm.
+            <div class="copyright">
+                <p>&copy; 2023 My Climate Definition. All rights reserved. | <a href="#" style="color: #aaa;">Privacy Policy</a> | <a href="#" style="color: #aaa;">Terms of Service</a></p>
             </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Share Modal -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-content">
+            <button class="share-close" id="shareClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="share-title" id="shareModalTitle">Share This Story</h3>
+            <div class="share-buttons">
+                <a href="#" class="share-btn facebook" id="facebookShare">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+                <a href="#" class="share-btn twitter" id="twitterShare">
+                    <i class="fab fa-twitter"></i> Twitter
+                </a>
+                <a href="#" class="share-btn linkedin" id="linkedinShare">
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                </a>
+                <a href="#" class="share-btn whatsapp" id="whatsappShare">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="#" class="share-btn email" id="emailShare">
+                    <i class="fas fa-envelope"></i> Email
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close mobile menu if open
+                    if (mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - var(--header-height),
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        });
+
+        // Share functionality
+        const shareTriggers = document.querySelectorAll('.share-trigger');
+        const shareModal = document.getElementById('shareModal');
+        const shareClose = document.getElementById('shareClose');
+        const shareModalTitle = document.getElementById('shareModalTitle');
+        const facebookShare = document.getElementById('facebookShare');
+        const twitterShare = document.getElementById('twitterShare');
+        const linkedinShare = document.getElementById('linkedinShare');
+        const whatsappShare = document.getElementById('whatsappShare');
+        const emailShare = document.getElementById('emailShare');
+        
+        let currentShareTitle = '';
+        let currentShareUrl = '';
+        
+        shareTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentShareTitle = trigger.getAttribute('data-title');
+                currentShareUrl = trigger.getAttribute('data-url');
+                
+                shareModalTitle.textContent = `Share: ${currentShareTitle}`;
+                
+                // Set share URLs
+                const encodedUrl = encodeURIComponent(currentShareUrl);
+                const encodedTitle = encodeURIComponent(currentShareTitle);
+                
+                facebookShare.href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+                twitterShare.href = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+                linkedinShare.href = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}`;
+                whatsappShare.href = `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`;
+                emailShare.href = `mailto:?subject=${encodedTitle}&body=Check%20out%20this%20story:%20${encodedUrl}`;
+                
+                shareModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        shareClose.addEventListener('click', () => {
+            shareModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close modal when clicking outside
+        shareModal.addEventListener('click', (e) => {
+            if (e.target === shareModal) {
+                shareModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Form submission handling
+        const contactForm = document.getElementById('contactForm');
+        const contactSuccess = document.getElementById('contactSuccess');
+        const contactError = document.getElementById('contactError');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simulate form submission (replace with actual form submission code)
+                setTimeout(() => {
+                    contactSuccess.style.display = 'block';
+                    contactForm.reset();
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        contactSuccess.style.display = 'none';
+                    }, 5000);
+                }, 1000);
+            });
+        }
+
+        // Newsletter form
+        const newsletterForm = document.getElementById('newsletterForm');
+        
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simulate form submission (replace with actual form submission code)
+                setTimeout(() => {
+                    newsletterForm.reset();
+                    alert('Thank you for subscribing to our newsletter!');
+                }, 1000);
+            });
+        }
+
+        // Sticky header on scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
